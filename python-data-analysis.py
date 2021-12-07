@@ -94,7 +94,7 @@ def update_plot(i):
     frame=i) 
 
 # additionally we need to know how many frames exist for the play (will get this from the database)
-anim = FuncAnimation(fig, update_plot, frames=113, interval=10)
+anim = FuncAnimation(fig, update_plot, frames=113, interval=1, repeat=False)
 fig.set_figheight(8)
 fig.set_figwidth(14)
 plt.show()
