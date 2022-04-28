@@ -66,54 +66,54 @@ def generate_field():
 
     # plot line numbers
     for a in [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110]:
-        ax.axvline(x=a, color='white')
+        ax.axvline(x=a, color='white', zorder=1)
     # added to set y-axis up for the numbers
-    ax.axhline(y=0, color='white')
-    ax.axhline(y=53.3, color='white')
+    ax.axhline(y=0, color='white', zorder=1)
+    ax.axhline(y=53.3, color='white', zorder=1)
 
     # plot numbers
     for x in range(20, 110, 10):
         numb = x
         if x > 50:
             numb = 120-x
-        ax.text(x, 4, str(numb - 10), horizontalalignment='center', fontsize=15, color='white')
+        ax.text(x, 4, str(numb - 10), horizontalalignment='center', fontsize=15, color='white', zorder=1)
         ax.text(x-0.95, 53.3-4, str(numb-10), 
-                horizontalalignment='center', fontsize=15, color='white',rotation=180)
+                horizontalalignment='center', fontsize=15, color='white',rotation=180, zorder=1)
 
     # hash marks
     for x in range(11, 110):
-        ax.plot([x, x], [0.4, 0.7], color='white')
-        ax.plot([x, x], [53.0, 52.5], color='white')
-        ax.plot([x, x], [23, 23.66], color='white')
-        ax.plot([x, x], [29.66, 30.33], color='white')
+        ax.plot([x, x], [0.4, 0.7], color='white', zorder=1)
+        ax.plot([x, x], [53.0, 52.5], color='white', zorder=1)
+        ax.plot([x, x], [23, 23.66], color='white', zorder=1)
+        ax.plot([x, x], [29.66, 30.33], color='white', zorder=1)
 
     # hide axis
     plt.axis('off')
 
+
     # create base scatter plots for the players location, allows for legend creation
-    ax.plot([], [], color= '#2E4052', label = 'Home team')
-    ax.plot([], [], color= '#E5323B', label = 'Away team')
-    ax.plot([], [], color='#FFC857' , label = 'Football')
+    ax.scatter([], [], c= '#0069D1', label = 'Home team', zorder=2)
+    ax.scatter([], [], c= '#D92F38', label = 'Away team', zorder=2)
+    ax.scatter([], [], c='#E89B00' , label = 'Football', zorder=2)
     ax.legend(loc='upper right')
 
-    # query play description and possession team and add them in the title
-    ax.set_title("\n".join(wrap('Possession team: {team}\nPlay: {play}'.format(team=play_info[0]['possessionteam'], 
-                                                            play=play_info[0]['playdescription']), 70)))
-
-    # # statistics overview tables 
-    # plt.table(cellText=data, 
-    #                 colWidths=[0.1]*4,
-    #                 colLabels=list(stat_overview.columns),
-    #                 loc='right',
-    #                 )
-    # plt.table(cellText=data2, 
-    #                 colWidths=[0.1]*2,
-    #                 colLabels=list(percentile_cal.columns),
-    #                 loc='bottom')
+    # statistics overview tables 
+    plt.table(cellText=data, 
+                    colWidths=[0.1]*4,
+                    colLabels=list(stat_overview.columns),
+                    loc='right',
+                    )
+    plt.table(cellText=data2, 
+                    colWidths=[0.1]*2,
+                    colLabels=list(percentile_cal.columns),
+                    loc='bottom')
                     
     # initial plots for jersey numbers
     for x in range(0, 14):
-        d["label{0}".format(x)] = ax.text(0, 0, '', fontsize = 'small', fontweight = 700)
+        d["label{0}".format(x)] = ax.text(0, 0, '', fontsize = 'small', fontweight = 700, zorder=5)
+
+    # plot legend
+    ax.legend(loc='upper right')
 
 
 def draw_play(frame):  
@@ -122,9 +122,15 @@ def draw_play(frame):
     ball = tracking.loc[(tracking['frameid'] == frame) & (tracking['team'] == 'football') ]
 
     # visualize positions with scatter plot on our field 
-    ax.plot(home['x'], home['y'], color= '#2E4052', label = 'Home team')
-    ax.plot(away['x'], away['y'], color= '#E5323B', label = 'Away team')
-    ax.plot(ball['x'], ball['y'], color='#FFC857' , label = 'Football')
+    ax.plot(home['x'], home['y'], linestyle='None', marker='o', mfc='#0069D1',mec='#0069D1', label = 'Home team', zorder=3)
+    ax.plot(away['x'], away['y'], linestyle='None',marker='o', mfc='#D92F38',mec='#D92F38', label = 'Away team', zorder=3)
+    ax.plot(ball['x'], ball['y'], linestyle='None',marker='o', mfc='#E89B00',mec='#E89B00', label = 'Football', zorder=4)
+
+    
+    # query play description and possession team and add them in the title
+    ax.set_title("\n".join(wrap('Possession team: {team}\nPlay: {play}'.format(team=play_info[0]['possessionteam'], 
+                                                            play=play_info[0]['playdescription']), 70)))
+    
 
     # # plot players speed and acceleration
     # s_home = home_team['s']
@@ -151,14 +157,15 @@ def draw_play(frame):
         d["label{0}".format(i)].set_y(no_football.y.iloc[i])
 
 
+
 # plot static graph
-fig, ax = plt.subplots(figsize=(14, 6.5))
+fig, ax = plt.subplots(figsize=(14, 6.5)) 
 generate_field()
-# draw_play(frame=70) 
+# draw_play(frame=65)
 # plt.show()
 
 # create animation
-anim = FuncAnimation(fig, draw_play, interval=1, frames=range(1,113), repeat=False )
+anim = FuncAnimation(fig, draw_play, frames=range(1,200), repeat=False )
 plt.subplots_adjust(top=0.8)
 plt.subplots_adjust(right=0.7)
 plt.show()
