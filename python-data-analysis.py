@@ -61,7 +61,7 @@ conn.close()
 
 def generate_field():
     rect = patches.Rectangle((0, 0), 120, 53.3, linewidth=2,
-                            edgecolor='black', facecolor='#1BA821', zorder=0)
+                            edgecolor='black', facecolor='#BDD9BF', zorder=0)
     ax.add_patch(rect)
 
     # plot line numbers
@@ -91,9 +91,9 @@ def generate_field():
     plt.axis('off')
 
     # create base scatter plots for the players location, allows for legend creation
-    ax.plot([], [], 'bo', label = 'Home team')
-    ax.plot([], [], 'ro', label = 'Away team')
-    ax.plot([], [], 'yo', label = 'Football')
+    ax.plot([], [], color= '#2E4052', label = 'Home team')
+    ax.plot([], [], color= '#E5323B', label = 'Away team')
+    ax.plot([], [], color='#FFC857' , label = 'Football')
     ax.legend(loc='upper right')
 
     # query play description and possession team and add them in the title
@@ -122,9 +122,9 @@ def draw_play(frame):
     ball = tracking.loc[(tracking['frameid'] == frame) & (tracking['team'] == 'football') ]
 
     # visualize positions with scatter plot on our field 
-    ax.plot(home['x'], home['y'], 'bo', label = 'Home team')
-    ax.plot(away['x'], away['y'], 'ro', label = 'Away team')
-    ax.plot(ball['x'], ball['y'], 'yo', label = 'Football')
+    ax.plot(home['x'], home['y'], color= '#2E4052', label = 'Home team')
+    ax.plot(away['x'], away['y'], color= '#E5323B', label = 'Away team')
+    ax.plot(ball['x'], ball['y'], color='#FFC857' , label = 'Football')
 
     # # plot players speed and acceleration
     # s_home = home_team['s']
@@ -139,7 +139,7 @@ def draw_play(frame):
     # for i, (x,y) in enumerate(zip(s_away, a_away)):
     #     ax.annotate(f's={x}, a={y}', (away_team.x.iloc[i], away_team.y.iloc[i]), textcoords="offset points", xytext=(0,-10), ha='center', c='#A70101', fontsize = 'small', fontweight = 700)
     # for i, (x,y) in enumerate(zip(s_ball, a_ball)):
-    #     ax.annotate(f's={x}, a={y}', (football.x.iloc[i], football.y.iloc[i]), textcoords="offset points", xytext=(0,10), ha='center', c='#FFC700', fontsize = 'small', fontweight = 700)
+    #     ax.annotate(f's={x}, a={y}', (football.x.iloc[i], football.y.iloc[i]), textcoords="offset points", xytext=(0,10), ha='center', c='#FFC857', fontsize = 'small', fontweight = 700)
 
     # set jersy numbers for players at location given the specified frame 
     no_football = tracking.loc[(tracking['frameid'] == frame) & (tracking['team'] != 'football') ]
