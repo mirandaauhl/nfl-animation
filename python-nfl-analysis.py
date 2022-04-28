@@ -110,7 +110,7 @@ def generate_field():
                     
     # initial plots for jersey numbers
     for x in range(0, 14):
-        d["label{0}".format(x)] = ax.text(0, 0, '', fontsize = 'small', fontweight = 700, zorder=5)
+        d["label{0}".format(x)] = ax.text(0, 0, '', fontsize = 'small', fontweight = 700, zorder=4)
 
     # plot legend
     ax.legend(loc='upper right')
@@ -122,9 +122,9 @@ def draw_play(frame):
     ball = tracking.loc[(tracking['frameid'] == frame) & (tracking['team'] == 'football') ]
 
     # visualize positions with scatter plot on our field 
-    ax.plot(home['x'], home['y'], linestyle='None', marker='o', mfc='#0069D1',mec='#0069D1', label = 'Home team', zorder=3)
-    ax.plot(away['x'], away['y'], linestyle='None',marker='o', mfc='#D92F38',mec='#D92F38', label = 'Away team', zorder=3)
-    ax.plot(ball['x'], ball['y'], linestyle='None',marker='o', mfc='#E89B00',mec='#E89B00', label = 'Football', zorder=4)
+    ax.plot(home['x'], home['y'], linestyle='None', marker='o', mfc='#0069D1',mec='#0069D1', label = 'Home team', zorder=2)
+    ax.plot(away['x'], away['y'], linestyle='None',marker='o', mfc='#D92F38',mec='#D92F38', label = 'Away team', zorder=2)
+    ax.plot(ball['x'], ball['y'], linestyle='None',marker='o', mfc='#E89B00',mec='#E89B00', label = 'Football', zorder=3)
 
     
     # query play description and possession team and add them in the title
